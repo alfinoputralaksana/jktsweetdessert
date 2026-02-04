@@ -122,10 +122,10 @@
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
-          🔥 Menu Paling Laris
+          ⭐Customer Favorites⭐
         </h2>
         <p style="color: #666; font-size: 1rem; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;">
-          Menu favorit yang paling banyak dibeli oleh pelanggan kami
+          The Most Loved Menu
         </p>
       </div>
       <style>
@@ -319,10 +319,10 @@
             <div class="carousel-item active">
               <div class="detail-box">
                 <h4>
-                  Virginia
+                  Salma
                 </h4>
                 <p>
-                  Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and
+                   Website-nya user friendly banget, pesen makanan jadi cepat dan tanpa ribet. Semua info jelas, jadi nyaman dipakai💻💖
                 </p>
                 <i class="fa fa-quote-left" aria-hidden="true"></i>
               </div>
@@ -330,10 +330,10 @@
             <div class="carousel-item">
               <div class="detail-box">
                 <h4>
-                  Virginia
+                  Elvina
                 </h4>
                 <p>
-                  Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and
+                  Website-nya user friendly banget, pesen makanan jadi cepat tanpa ribet. Aku juga suka karena ada rekomendasi menu yang lagi tren, jadi gampang milih📲💖
                 </p>
                 <i class="fa fa-quote-left" aria-hidden="true"></i>
               </div>
@@ -341,10 +341,32 @@
             <div class="carousel-item">
               <div class="detail-box">
                 <h4>
-                  Virginia
+                  Lalalov
                 </h4>
                 <p>
-                  Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and
+                Pesennya gampang lewat website, dan aku suka karena ada menu yang ditandai lagi populer. Makanannya enak-enak, jadi makin yakin buat order🛍️💜
+                </p>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+              </div>
+            </div>
+             <div class="carousel-item">
+              <div class="detail-box">
+                <h4>
+                  Alifa
+                </h4>
+                <p>
+                Teksturnya lembut, rasanya konsisten, dan selalu jadi pilihan yang tepat. Love banget!😋💞
+                </p>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+              </div>
+            </div>
+             <div class="carousel-item">
+              <div class="detail-box">
+                <h4>
+                  Uwiling
+                </h4>
+                <p>
+                Semua makanannya enak, rasanya pas dan nggak bikin eneg. Nggak heran jadi menu favorit banyak orang🍰💗
                 </p>
                 <i class="fa fa-quote-left" aria-hidden="true"></i>
               </div>

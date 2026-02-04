@@ -1002,9 +1002,9 @@
         @if(isset($topProducts) && count($topProducts) > 0 && !request('search') && !request('category'))
         <div class="best-seller-section">
           <div class="section-header">
-            <h3>🔥 Menu Paling Laris</h3>
+            <h3>⭐Customer Favorites⭐</h3>
             <p style="color: #666; font-size: 1rem; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;">
-              Menu favorit yang paling banyak dibeli oleh pelanggan kami
+              The Most Loved Menu
             </p>
             <div class="title-lines">
               <div class="title-line title-line-orange"></div>
@@ -1255,11 +1255,31 @@
           @endforelse
         </div>
 
-        <!-- Pagination -->
-        <div class="row">
-          <div class="col-12">
-            {{ $products->links() }}
-          </div>
+        <!-- Pagination: Prev/Next -->
+        <div class="pagination-container" style="display: flex; justify-content: center; align-items: center; margin-top: 40px; gap: 15px;">
+          @if($products->onFirstPage())
+            <button class="btn btn-outline-secondary" disabled style="opacity: 0.5;">
+              <i class="fa fa-chevron-left"></i> Sebelumnya
+            </button>
+          @else
+            <a href="{{ $products->previousPageUrl() }}" class="btn btn-outline-primary" style="text-decoration: none;">
+              <i class="fa fa-chevron-left"></i> Sebelumnya
+            </a>
+          @endif
+
+          <span class="pagination-info" style="font-size: 14px; color: #666;">
+            Halaman {{ $products->currentPage() }} dari {{ $products->lastPage() }}
+          </span>
+
+          @if($products->hasMorePages())
+            <a href="{{ $products->nextPageUrl() }}" class="btn btn-outline-primary" style="text-decoration: none;">
+              Berikutnya <i class="fa fa-chevron-right"></i>
+            </a>
+          @else
+            <button class="btn btn-outline-secondary" disabled style="opacity: 0.5;">
+              Berikutnya <i class="fa fa-chevron-right"></i>
+            </button>
+          @endif
         </div>
         @endif
       </div>

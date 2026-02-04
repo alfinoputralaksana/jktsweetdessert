@@ -197,9 +197,31 @@
           </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="mt-3">
-          {{ $orders->links() }}
+        <!-- Pagination: Prev/Next -->
+        <div class="pagination-container mt-4" style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+          @if($orders->onFirstPage())
+            <button class="btn btn-outline-secondary" disabled style="opacity: 0.5;">
+              <i class="fas fa-chevron-left"></i> Sebelumnya
+            </button>
+          @else
+            <a href="{{ $orders->previousPageUrl() }}" class="btn btn-outline-primary" style="text-decoration: none;">
+              <i class="fas fa-chevron-left"></i> Sebelumnya
+            </a>
+          @endif
+
+          <span class="pagination-info" style="font-size: 14px; color: #666;">
+            Halaman {{ $orders->currentPage() }} dari {{ $orders->lastPage() }}
+          </span>
+
+          @if($orders->hasMorePages())
+            <a href="{{ $orders->nextPageUrl() }}" class="btn btn-outline-primary" style="text-decoration: none;">
+              Berikutnya <i class="fas fa-chevron-right"></i>
+            </a>
+          @else
+            <button class="btn btn-outline-secondary" disabled style="opacity: 0.5;">
+              Berikutnya <i class="fas fa-chevron-right"></i>
+            </button>
+          @endif
         </div>
       </div>
       <!-- /.card-body -->
