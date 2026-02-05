@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-@include('partial.header')
+<?php echo $__env->make('partial.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 <head>
   <style>
@@ -962,12 +962,12 @@
           <div class="container">
             <div class="row">
               <div class="col">
-                <form method="GET" action="{{ route('products.index') }}">
+                <form method="GET" action="<?php echo e(route('products.index')); ?>">
                   <div class="form-row">
                     <div class="form-group col-lg-5">
                       <div class="search-wrapper">
                         <i class="fa fa-search search-icon" aria-hidden="true"></i>
-                        <input type="text" name="search" class="form-control" id="inputProductName" placeholder="Nama Makanan" value="{{ request('search') }}" autocomplete="off">
+                        <input type="text" name="search" class="form-control" id="inputProductName" placeholder="Nama Makanan" value="<?php echo e(request('search')); ?>" autocomplete="off">
                       </div>
                     </div>
                     <div class="form-group col-lg-4">
@@ -975,11 +975,12 @@
                         <i class="fa fa-tags tag-icon" aria-hidden="true"></i>
                         <select name="category" class="form-control" id="inputCategory" onchange="this.form.submit()">
                           <option value="">Semua Kategori</option>
-                          @foreach($categories as $category)
-                            <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
-                              {{ $category->name }}
+                          <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($category->id); ?>" <?php echo e(request('category') == $category->id ? 'selected' : ''); ?>>
+                              <?php echo e($category->name); ?>
+
                             </option>
-                          @endforeach
+                          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                       </div>
                     </div>
@@ -999,7 +1000,7 @@
         </div>
 
         <!-- Menu Paling Laris Section -->
-        @if(isset($topProducts) && count($topProducts) > 0 && !request('search') && !request('category'))
+        <?php if(isset($topProducts) && count($topProducts) > 0 && !request('search') && !request('category')): ?>
         <div class="best-seller-section">
           <div class="section-header">
             <h3>⭐Customer Favorites⭐</h3>
@@ -1143,80 +1144,80 @@
             }
           </style>
           <div class="best-seller-grid">
-            @foreach($topProducts as $index => $item)
-              <div class="top-product-card animate-on-scroll" style="--index: {{ $index % 4 }};">
-                <div class="rank-badge">{{ $index + 1 }}</div>
-                @if($index < 3)
+            <?php $__currentLoopData = $topProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+              <div class="top-product-card animate-on-scroll" style="--index: <?php echo e($index % 4); ?>;">
+                <div class="rank-badge"><?php echo e($index + 1); ?></div>
+                <?php if($index < 3): ?>
                   <div class="popular-badge">
                     <i class="fa fa-fire" aria-hidden="true"></i> Paling Laris
                   </div>
-                @endif
-                <a href="{{ route('products.show', $item['product']->slug) }}" class="card-link" style="text-decoration: none; color: inherit;">
+                <?php endif; ?>
+                <a href="<?php echo e(route('products.show', $item['product']->slug)); ?>" class="card-link" style="text-decoration: none; color: inherit;">
                   <div class="img-box">
-                    <img src="{{ asset($item['product']->image ?: 'assets/images/r1.jpg') }}" alt="{{ $item['product']->name }}">
+                    <img src="<?php echo e(asset($item['product']->image ?: 'assets/images/r1.jpg')); ?>" alt="<?php echo e($item['product']->name); ?>">
                   </div>
                 </a>
                 <div class="detail-box">
-                  <h4>{{ $item['product']->name }}</h4>
-                  <p class="text-muted">{{ $item['product']->category->name }}</p>
-                  <p class="price">Rp {{ number_format($item['product']->price, 0, ',', '.') }}</p>
+                  <h4><?php echo e($item['product']->name); ?></h4>
+                  <p class="text-muted"><?php echo e($item['product']->category->name); ?></p>
+                  <p class="price">Rp <?php echo e(number_format($item['product']->price, 0, ',', '.')); ?></p>
                   <div class="product-footer">
                     <span class="sold-info">
                       <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                      <span>Terjual: {{ $item['total_sold'] }}</span>
+                      <span>Terjual: <?php echo e($item['total_sold']); ?></span>
                     </span>
-                    <a href="{{ route('products.show', $item['product']->slug) }}" class="view-btn" title="Lihat Detail Produk" onclick="event.stopPropagation();">
+                    <a href="<?php echo e(route('products.show', $item['product']->slug)); ?>" class="view-btn" title="Lihat Detail Produk" onclick="event.stopPropagation();">
                       <i class="fa fa-arrow-right"></i>
                     </a>
                   </div>
                 </div>
               </div>
-            @endforeach
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
           </div>
         </div>
-        @endif
+        <?php endif; ?>
 
         <!-- Products by Category Section -->
-        @if($productsByCategory->count() > 0 && !request('search') && !request('category'))
+        <?php if($productsByCategory->count() > 0 && !request('search') && !request('category')): ?>
         <div class="category-section">
-          @foreach($productsByCategory as $category)
-            @if($category->products->count() > 0)
+          <?php $__currentLoopData = $productsByCategory; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php if($category->products->count() > 0): ?>
             <div class="category-section-item">
               <div class="category-section-header">
-                <h3>{{ $category->name }}</h3>
-                <a href="{{ route('products.index', ['category' => $category->id]) }}" class="view-all-link">
+                <h3><?php echo e($category->name); ?></h3>
+                <a href="<?php echo e(route('products.index', ['category' => $category->id])); ?>" class="view-all-link">
                   Lihat Semua <i class="fa fa-arrow-right"></i>
                 </a>
               </div>
               <div class="category-products-grid">
-                @foreach($category->products as $index => $product)
-                  <div class="box animate-on-scroll" style="--index: {{ $index % 3 }};">
-                    <a href="{{ route('products.show', $product->slug) }}" class="card-link" style="text-decoration: none; color: inherit;">
+                <?php $__currentLoopData = $category->products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <div class="box animate-on-scroll" style="--index: <?php echo e($index % 3); ?>;">
+                    <a href="<?php echo e(route('products.show', $product->slug)); ?>" class="card-link" style="text-decoration: none; color: inherit;">
                       <div class="img-box">
-                        <img src="{{ asset($product->image ?: 'assets/images/r1.jpg') }}" class="box-img" alt="{{ $product->name }}">
+                        <img src="<?php echo e(asset($product->image ?: 'assets/images/r1.jpg')); ?>" class="box-img" alt="<?php echo e($product->name); ?>">
                       </div>
                     </a>
                     <div class="detail-box">
-                      <h4>{{ $product->name }}</h4>
-                      <p class="text-muted">{{ $product->category->name }}</p>
-                      <p class="price">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                      <h4><?php echo e($product->name); ?></h4>
+                      <p class="text-muted"><?php echo e($product->category->name); ?></p>
+                      <p class="price">Rp <?php echo e(number_format($product->price, 0, ',', '.')); ?></p>
                       <div class="d-flex justify-content-end align-items-center">
-                        <a href="{{ route('products.show', $product->slug) }}" class="btn btn-primary" title="Lihat Detail Produk" onclick="event.stopPropagation();">
+                        <a href="<?php echo e(route('products.show', $product->slug)); ?>" class="btn btn-primary" title="Lihat Detail Produk" onclick="event.stopPropagation();">
                           <i class="fa fa-arrow-right"></i>
                         </a>
                       </div>
                     </div>
                   </div>
-                @endforeach
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </div>
             </div>
-            @endif
-          @endforeach
+            <?php endif; ?>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </div>
-        @endif
+        <?php endif; ?>
 
         <!-- All Products Grid (Only show when searching or filtering) -->
-        @if(request('search') || request('category'))
+        <?php if(request('search') || request('category')): ?>
         <div class="products-page-header" style="margin-top: 40px;">
           <h2>Hasil Pencarian</h2>
           <div class="title-lines">
@@ -1227,66 +1228,67 @@
 
         <!-- Products Grid -->
         <div class="products-grid">
-          @forelse($products as $index => $product)
-            <div class="box animate-on-scroll" style="--index: {{ $index % 6 }};">
-              <a href="{{ route('products.show', $product->slug) }}" class="card-link" style="text-decoration: none; color: inherit;">
+          <?php $__empty_1 = true; $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+            <div class="box animate-on-scroll" style="--index: <?php echo e($index % 6); ?>;">
+              <a href="<?php echo e(route('products.show', $product->slug)); ?>" class="card-link" style="text-decoration: none; color: inherit;">
                 <div class="img-box">
-                  <img src="{{ asset($product->image ?: 'assets/images/r1.jpg') }}" class="box-img" alt="{{ $product->name }}">
+                  <img src="<?php echo e(asset($product->image ?: 'assets/images/r1.jpg')); ?>" class="box-img" alt="<?php echo e($product->name); ?>">
                 </div>
               </a>
               <div class="detail-box">
-                <h4>{{ $product->name }}</h4>
-                <p class="text-muted">{{ $product->category->name }}</p>
-                <p class="price">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
+                <h4><?php echo e($product->name); ?></h4>
+                <p class="text-muted"><?php echo e($product->category->name); ?></p>
+                <p class="price">Rp <?php echo e(number_format($product->price, 0, ',', '.')); ?></p>
                 <div class="d-flex justify-content-end align-items-center">
-                  <a href="{{ route('products.show', $product->slug) }}" class="btn btn-primary" title="Lihat Detail Produk" onclick="event.stopPropagation();">
+                  <a href="<?php echo e(route('products.show', $product->slug)); ?>" class="btn btn-primary" title="Lihat Detail Produk" onclick="event.stopPropagation();">
                     <i class="fa fa-arrow-right"></i>
                   </a>
                 </div>
               </div>
             </div>
-          @empty
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <div style="grid-column: 1 / -1;">
               <div class="alert alert-info text-center">
                 <h4>No products found</h4>
                 <p>Try adjusting your search or filter criteria.</p>
               </div>
             </div>
-          @endforelse
+          <?php endif; ?>
         </div>
 
         <!-- Pagination: Prev/Next -->
         <div class="pagination-container" style="display: flex; justify-content: center; align-items: center; margin-top: 40px; gap: 15px;">
-          @if($products->onFirstPage())
+          <?php if($products->onFirstPage()): ?>
             <button class="btn btn-outline-secondary" disabled style="opacity: 0.5;">
               <i class="fa fa-chevron-left"></i> Sebelumnya
             </button>
-          @else
-            <a href="{{ $products->appends(request()->query())->previousPageUrl() }}" class="btn btn-outline-primary" style="text-decoration: none;">
+          <?php else: ?>
+            <a href="<?php echo e($products->appends(request()->query())->previousPageUrl()); ?>" class="btn btn-outline-primary" style="text-decoration: none;">
               <i class="fa fa-chevron-left"></i> Sebelumnya
             </a>
-          @endif
+          <?php endif; ?>
 
           <span class="pagination-info" style="font-size: 14px; color: #666;">
-            Halaman {{ $products->currentPage() }} dari {{ $products->lastPage() }}
+            Halaman <?php echo e($products->currentPage()); ?> dari <?php echo e($products->lastPage()); ?>
+
           </span>
 
-          @if($products->hasMorePages())
-            <a href="{{ $products->appends(request()->query())->nextPageUrl() }}" class="btn btn-outline-primary" style="text-decoration: none;">
+          <?php if($products->hasMorePages()): ?>
+            <a href="<?php echo e($products->appends(request()->query())->nextPageUrl()); ?>" class="btn btn-outline-primary" style="text-decoration: none;">
               Berikutnya <i class="fa fa-chevron-right"></i>
             </a>
-          @else
+          <?php else: ?>
             <button class="btn btn-outline-secondary" disabled style="opacity: 0.5;">
               Berikutnya <i class="fa fa-chevron-right"></i>
             </button>
-          @endif
+          <?php endif; ?>
         </div>
-        @endif
+        <?php endif; ?>
       </div>
     </section>
   </div>
 
-  @include('partial.footer')
+  <?php echo $__env->make('partial.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
   <!-- Animation Script -->
   <script>
@@ -1321,3 +1323,4 @@
 </body>
 </html>
 
+<?php /**PATH C:\laragon\www\jktsweetdessert\resources\views/products/index.blade.php ENDPATH**/ ?>
