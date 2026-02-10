@@ -32,6 +32,7 @@ class Order extends Model
         'payment_instructions',
         'virtual_account_number',
         'virtual_account_bank',
+        'qris_channel',
         'qris_url',
         'qris_image_url',
         'payment_expired_at',

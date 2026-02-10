@@ -39,7 +39,10 @@
                   @endif
                   <p><strong>Payment Method:</strong> 
                     @if($order->payment_method === 'qris')
-                      QRIS
+                      QRIS / E-Wallet 
+                      @if($order->qris_channel)
+                        <span class="badge badge-info">{{ strtoupper($order->qris_channel) }}</span>
+                      @endif
                     @elseif($order->payment_method === 'virtual_account')
                       Virtual Account
                     @else
@@ -63,6 +66,9 @@
                   <div class="alert alert-secondary" style="font-size: 11px;">
                     <strong>Debug Info:</strong><br>
                     Payment Method: {{ $order->payment_method }}<br>
+                    @if($order->payment_method === 'qris')
+                      QRIS Channel: {{ $order->qris_channel ?? 'generic' }}<br>
+                    @endif
                     QRIS URL: {{ $order->qris_url ? 'Ada (' . strlen($order->qris_url) . ' chars)' : 'Tidak ada' }}<br>
                     VA Number: {{ $order->virtual_account_number ? 'Ada: ' . $order->virtual_account_number : 'Tidak ada' }}<br>
                     Payment Status: {{ $order->payment_status }}
@@ -78,7 +84,7 @@
                       @if($order->qris_url)
                       <div class="text-center my-4" style="background: #f8f9fa; padding: 30px; border-radius: 10px;">
                         <h5 style="margin-bottom: 20px; color: #333;">
-                          <i class="fa fa-qrcode"></i> Scan QR Code untuk Pembayaran
+                          <i class="fa fa-qrcode"></i> Scan QR Code dengan {{ strtoupper($order->qris_channel ?? 'aplikasi e-wallet Anda') }}
                         </h5>
                         <div style="display: inline-block; padding: 20px; background: white; border: 3px solid #28a745; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
                           @php
@@ -107,7 +113,7 @@
                             }
                           @endphp
                           <img src="{{ $qrImageUrl }}" 
-                               alt="QRIS Code untuk GoPay, OVO, DANA" 
+                               alt="QRIS Code untuk {{ strtoupper($order->qris_channel ?? 'e-wallet') }}" 
                                style="max-width: 600px; width: 100%; min-width: 400px; display: block; margin: 0 auto; 
                                       image-rendering: -webkit-optimize-contrast; 
                                       image-rendering: crisp-edges;
@@ -130,12 +136,12 @@
                         </div>
                         <div class="alert alert-warning mt-3" style="font-size: 13px; border-left: 4px solid #ff9800;">
                           <i class="fa fa-exclamation-triangle"></i> 
-                          <strong>Penting untuk GoPay:</strong>
+                          <strong>Penting untuk {{ strtoupper($order->qris_channel ?? 'E-wallet') }}:</strong>
                           <ul style="margin: 10px 0; padding-left: 20px;">
                             <li>Pastikan QR code terlihat jelas dan tidak blur</li>
                             <li>Jika tidak bisa di-scan, coba <strong>zoom in</strong> atau <strong>download gambar</strong> lalu scan dari galeri</li>
                             <li>Atau gunakan fitur <strong>"Salin Kode QRIS"</strong> di bawah untuk input manual</li>
-                            <li>Pastikan aplikasi GoPay sudah update ke versi terbaru</li>
+                            <li>Pastikan aplikasi {{ strtoupper($order->qris_channel ?? 'e-wallet') }} sudah update ke versi terbaru</li>
                           </ul>
                         </div>
                         <div class="mt-3">

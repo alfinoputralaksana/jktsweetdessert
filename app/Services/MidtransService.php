@@ -72,6 +72,26 @@ class MidtransService
             if ($paymentType === 'qris') {
                 // For QRIS, use Core API which returns qr_string directly
                 $params['payment_type'] = 'qris';
+                
+                // Add QRIS channel if specified (dana, gopay, ovo, linkaja)
+                // This ensures QRIS code is optimized for the specific e-wallet
+                $supportedChannels = ['dana', 'gopay', 'ovo', 'linkaja'];
+                if ($bankCode && in_array(strtolower($bankCode), $supportedChannels)) {
+                    $params['qris'] = [
+                        'acquirer' => strtoupper($bankCode) // DANA, GOPAY, OVO, LINKAJA
+                    ];
+                    \Log::info('Creating QRIS transaction with channel', [
+                        'order_id' => $order->order_number,
+                        'channel' => strtoupper($bankCode),
+                        'amount' => $order->total
+                    ]);
+                } else {
+                    \Log::info('Creating QRIS transaction (generic)', [
+                        'order_id' => $order->order_number,
+                        'amount' => $order->total
+                    ]);
+                }
+                
                 $response = CoreApi::charge($params);
             } elseif ($paymentType === 'bank_transfer') {
                 // For Virtual Account, validate and use bank code from user selection
