@@ -1263,7 +1263,7 @@
               <i class="fa fa-chevron-left"></i> Sebelumnya
             </button>
           <?php else: ?>
-            <a href="<?php echo e($products->previousPageUrl()); ?>" class="btn btn-outline-primary" style="text-decoration: none;">
+            <a href="<?php echo e($products->appends(request()->query())->previousPageUrl()); ?>" class="btn btn-outline-primary" style="text-decoration: none;">
               <i class="fa fa-chevron-left"></i> Sebelumnya
             </a>
           <?php endif; ?>
@@ -1274,7 +1274,7 @@
           </span>
 
           <?php if($products->hasMorePages()): ?>
-            <a href="<?php echo e($products->nextPageUrl()); ?>" class="btn btn-outline-primary" style="text-decoration: none;">
+            <a href="<?php echo e($products->appends(request()->query())->nextPageUrl()); ?>" class="btn btn-outline-primary" style="text-decoration: none;">
               Berikutnya <i class="fa fa-chevron-right"></i>
             </a>
           <?php else: ?>

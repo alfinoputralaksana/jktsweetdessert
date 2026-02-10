@@ -63,7 +63,7 @@ class MidtransService
             'expiry' => [
                 'start_time' => date('Y-m-d H:i:s O'),
                 'unit' => 'minutes',
-                'duration' => 60, // 60 minutes expiry
+                'duration' => 1440, // 24 hours (1440 minutes) - diperpanjang dari 60 menit untuk memberikan waktu lebih banyak kepada customer
             ],
         ];
 

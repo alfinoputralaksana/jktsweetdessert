@@ -69,14 +69,43 @@ class PaymentController extends Controller
         try {
             $notificationBody = $request->all();
             $orderId = $notificationBody['order_id'] ?? null;
+            $signatureKey = $notificationBody['signature_key'] ?? null;
+
+            Log::info('Midtrans notification received', [
+                'order_id' => $orderId,
+                'status' => $notificationBody['transaction_status'] ?? null,
+                'timestamp' => now(),
+            ]);
+
+            // Validate signature key for security (mengecek bahwa notifikasi benar-benar dari Midtrans)
+            $serverKey = config('services.midtrans.server_key');
+            if (!empty($signatureKey) && !empty($serverKey)) {
+                $transactionId = $notificationBody['transaction_id'] ?? '';
+                $statusCode = $notificationBody['status_code'] ?? '';
+                $grossAmount = $notificationBody['gross_amount'] ?? '';
+                
+                // Hitung expected signature key
+                $expectedSignatureKey = hash('sha512', $orderId . $statusCode . $grossAmount . $serverKey);
+                
+                if ($signatureKey !== $expectedSignatureKey) {
+                    Log::warning('Invalid signature key for notification', [
+                        'order_id' => $orderId,
+                        'provided_signature' => substr($signatureKey, 0, 20) . '...',
+                        'expected_signature' => substr($expectedSignatureKey, 0, 20) . '...',
+                    ]);
+                    return response()->json(['message' => 'Invalid signature'], 401);
+                }
+            }
 
             if (!$orderId) {
+                Log::warning('Notification received without order_id');
                 return response()->json(['message' => 'Invalid notification'], 400);
             }
 
             $order = Order::where('order_number', $orderId)->first();
 
             if (!$order) {
+                Log::warning('Order not found for notification', ['order_id' => $orderId]);
                 return response()->json(['message' => 'Order not found'], 404);
             }
 
@@ -84,8 +113,15 @@ class PaymentController extends Controller
             $transactionStatus = $midtransService->getTransactionStatus($orderId);
 
             if (!$transactionStatus) {
+                Log::warning('Transaction status not found in Midtrans', ['order_id' => $orderId]);
                 return response()->json(['message' => 'Transaction not found'], 404);
             }
+
+            Log::info('Processing payment notification', [
+                'order_id' => $orderId,
+                'transaction_status' => $transactionStatus->transaction_status,
+                'fraud_status' => $transactionStatus->fraud_status ?? null,
+            ]);
 
             DB::beginTransaction();
             try {
@@ -120,14 +156,24 @@ class PaymentController extends Controller
                 $order->save();
                 DB::commit();
 
+                Log::info('Payment notification processed successfully', [
+                    'order_id' => $orderId,
+                    'new_payment_status' => $order->payment_status,
+                ]);
+
                 return response()->json(['message' => 'Notification processed']);
             } catch (\Exception $e) {
                 DB::rollBack();
-                Log::error('Payment notification error: ' . $e->getMessage());
+                Log::error('Payment notification error: ' . $e->getMessage(), [
+                    'order_id' => $orderId,
+                    'exception' => (string)$e,
+                ]);
                 return response()->json(['message' => 'Error processing notification'], 500);
             }
         } catch (\Exception $e) {
-            Log::error('Payment notification error: ' . $e->getMessage());
+            Log::error('Payment notification error: ' . $e->getMessage(), [
+                'exception' => (string)$e,
+            ]);
             return response()->json(['message' => 'Error processing notification'], 500);
         }
     }
