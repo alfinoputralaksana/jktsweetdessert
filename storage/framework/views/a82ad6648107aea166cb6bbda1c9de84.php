@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-@include('partial.header')
+<?php echo $__env->make('partial.header', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
 <head>
   <style>
@@ -477,19 +477,21 @@
           <h2>Shopping Cart</h2>
         </div>
 
-        @if(session('success'))
+        <?php if(session('success')): ?>
           <div class="alert alert-success">
-            <i class="fa fa-check-circle"></i> {{ session('success') }}
-          </div>
-        @endif
+            <i class="fa fa-check-circle"></i> <?php echo e(session('success')); ?>
 
-        @if(session('error'))
+          </div>
+        <?php endif; ?>
+
+        <?php if(session('error')): ?>
           <div class="alert alert-danger">
-            <i class="fa fa-exclamation-circle"></i> {{ session('error') }}
-          </div>
-        @endif
+            <i class="fa fa-exclamation-circle"></i> <?php echo e(session('error')); ?>
 
-        @if(count($products) > 0)
+          </div>
+        <?php endif; ?>
+
+        <?php if(count($products) > 0): ?>
           <div class="row">
             <div class="col-lg-8">
               <div class="cart-container">
@@ -505,49 +507,49 @@
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach($products as $item)
+                      <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                           <td data-label="Product">
                             <div class="product-info">
-                              <img src="{{ asset($item['image'] ?: 'assets/images/r1.jpg') }}" alt="{{ $item['name'] }}" class="product-image">
+                              <img src="<?php echo e(asset($item['image'] ?: 'assets/images/r1.jpg')); ?>" alt="<?php echo e($item['name']); ?>" class="product-image">
                               <div>
-                                <div class="product-name">{{ $item['name'] }}</div>
-                                <div class="product-price">Rp {{ number_format($item['price'], 0, ',', '.') }}</div>
+                                <div class="product-name"><?php echo e($item['name']); ?></div>
+                                <div class="product-price">Rp <?php echo e(number_format($item['price'], 0, ',', '.')); ?></div>
                               </div>
                             </div>
                           </td>
                           <td data-label="Price">
-                            <div class="product-price">Rp {{ number_format($item['price'], 0, ',', '.') }}</div>
+                            <div class="product-price">Rp <?php echo e(number_format($item['price'], 0, ',', '.')); ?></div>
                           </td>
                           <td data-label="Quantity">
-                            <form action="{{ route('cart.update', $item['id']) }}" method="POST" class="d-inline">
-                              @csrf
-                              @method('PUT')
-                              <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1" class="quantity-input" onchange="this.form.submit()">
+                            <form action="<?php echo e(route('cart.update', $item['id'])); ?>" method="POST" class="d-inline">
+                              <?php echo csrf_field(); ?>
+                              <?php echo method_field('PUT'); ?>
+                              <input type="number" name="quantity" value="<?php echo e($item['quantity']); ?>" min="1" class="quantity-input" onchange="this.form.submit()">
                             </form>
                           </td>
                           <td data-label="Subtotal">
-                            <div class="subtotal">Rp {{ number_format($item['subtotal'], 0, ',', '.') }}</div>
+                            <div class="subtotal">Rp <?php echo e(number_format($item['subtotal'], 0, ',', '.')); ?></div>
                           </td>
                           <td data-label="Action">
-                            <form action="{{ route('cart.remove', $item['id']) }}" method="POST" class="d-inline">
-                              @csrf
-                              @method('DELETE')
+                            <form action="<?php echo e(route('cart.remove', $item['id'])); ?>" method="POST" class="d-inline">
+                              <?php echo csrf_field(); ?>
+                              <?php echo method_field('DELETE'); ?>
                               <button type="submit" class="btn-remove">
                                 <i class="fa fa-trash"></i> Remove
                               </button>
                             </form>
                           </td>
                         </tr>
-                      @endforeach
+                      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                   </table>
                 </div>
 
                 <div class="cart-actions">
-                  <form action="{{ route('cart.clear') }}" method="POST" class="d-inline">
-                    @csrf
-                    @method('POST')
+                  <form action="<?php echo e(route('cart.clear')); ?>" method="POST" class="d-inline">
+                    <?php echo csrf_field(); ?>
+                    <?php echo method_field('POST'); ?>
                     <button type="submit" class="btn-clear">
                       <i class="fa fa-trash-alt"></i> Clear Cart
                     </button>
@@ -565,16 +567,16 @@
                   <div class="card-body">
                     <div class="summary-item">
                       <span>Subtotal</span>
-                      <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
+                      <span>Rp <?php echo e(number_format($total, 0, ',', '.')); ?></span>
                     </div>
                     <div class="summary-total">
                       <strong>Total</strong>
-                      <strong>Rp {{ number_format($total, 0, ',', '.') }}</strong>
+                      <strong>Rp <?php echo e(number_format($total, 0, ',', '.')); ?></strong>
                     </div>
-                    <a href="{{ route('checkout') }}" class="btn btn-primary">
+                    <a href="<?php echo e(route('checkout')); ?>" class="btn btn-primary">
                       <i class="fa fa-credit-card"></i> Proceed to Checkout
                     </a>
-                    <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">
+                    <a href="<?php echo e(route('products.index')); ?>" class="btn btn-outline-secondary">
                       <i class="fa fa-arrow-left"></i> Continue Shopping
                     </a>
                   </div>
@@ -582,17 +584,18 @@
               </div>
             </div>
           </div>
-        @else
+        <?php else: ?>
           <div class="alert alert-info text-center">
             <h4>Your cart is empty</h4>
             <p>Start shopping to add items to your cart.</p>
-            <a href="{{ route('products.index') }}" class="btn">Browse Products</a>
+            <a href="<?php echo e(route('products.index')); ?>" class="btn">Browse Products</a>
           </div>
-        @endif
+        <?php endif; ?>
       </div>
     </section>
   </div>
 
-  @include('partial.footer')
+  <?php echo $__env->make('partial.footer', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 </body>
 </html>
+<?php /**PATH /Applications/XAMPP/xamppfiles/htdocs/jktsweetdessert/resources/views/cart/index.blade.php ENDPATH**/ ?>

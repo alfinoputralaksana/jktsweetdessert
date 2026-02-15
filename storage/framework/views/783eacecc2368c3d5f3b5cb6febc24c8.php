@@ -24,6 +24,9 @@
       margin-bottom: 45px;
       text-align: center;
       animation: fadeInDown 0.8s ease;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
     }
 
     .products-page-header h2 {
@@ -31,6 +34,7 @@
       font-weight: 700;
       color: #4a3a22;
       margin-bottom: 0;
+      margin-top: 12px;
       position: relative;
       display: block;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -42,7 +46,8 @@
       justify-content: center;
       align-items: center;
       gap: 6px;
-      margin-top: 12px;
+      margin-top: 0;
+      margin-bottom: 0;
     }
 
     .products-page-header .title-line {
@@ -713,7 +718,7 @@
 
     .best-seller-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 30px;
       max-width: 1400px;
       margin: 0 auto;
@@ -754,11 +759,37 @@
 
     .category-section-header {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      align-items: flex-start;
       justify-content: space-between;
       margin-bottom: 30px;
       padding-bottom: 15px;
       border-bottom: 2px solid #e2e8f0;
+    }
+
+    .category-section-header .title-lines {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+      width: 100%;
+    }
+
+    .category-section-header .title- {
+      height: 3px;
+      border-radius: 2px;
+      display: block;
+    }
+
+    .category-section-header .title-{
+      width: 50px;
+      background: #FF8C42;
+    }
+
+    .category-section-header .title-line-purple {
+      width: 70px;
+      background: #4a3a22;
     }
 
     .category-section-header h3 {
@@ -768,6 +799,10 @@
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       text-transform: capitalize;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .category-section-header .view-all-link {
@@ -952,8 +987,8 @@
         <div class="heading_container heading_center products-page-header">
           <h2>Our Products</h2>
           <div class="title-lines">
-            <div class="title-line title-line-orange"></div>
-            <div class="title-line title-line-purple"></div>
+            
+            
           </div>
         </div>
 
@@ -1184,10 +1219,17 @@
             <?php if($category->products->count() > 0): ?>
             <div class="category-section-item">
               <div class="category-section-header">
-                <h3><?php echo e($category->name); ?></h3>
-                <a href="<?php echo e(route('products.index', ['category' => $category->id])); ?>" class="view-all-link">
-                  Lihat Semua <i class="fa fa-arrow-right"></i>
-                </a>
+                <div class="title-lines">
+                  <div class="title-line title-line-orange"></div>
+                  <div class="title-line title-line-purple"></div>
+                </div>
+                <h3>
+                  <?php echo e($category->name); ?>
+
+                  <a href="<?php echo e(route('products.index', ['category' => $category->id])); ?>" class="view-all-link">
+                    Lihat Semua <i class="fa fa-arrow-right"></i>
+                  </a>
+                </h3>
               </div>
               <div class="category-products-grid">
                 <?php $__currentLoopData = $category->products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
