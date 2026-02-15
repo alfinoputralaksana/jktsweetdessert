@@ -567,13 +567,9 @@
                       <span>Subtotal</span>
                       <span>Rp {{ number_format($total, 0, ',', '.') }}</span>
                     </div>
-                    <div class="summary-item">
-                      <span>Shipping</span>
-                      <span>Rp 10.000</span>
-                    </div>
                     <div class="summary-total">
                       <strong>Total</strong>
-                      <strong>Rp {{ number_format($total + 10000, 0, ',', '.') }}</strong>
+                      <strong>Rp {{ number_format($total, 0, ',', '.') }}</strong>
                     </div>
                     <a href="{{ route('checkout') }}" class="btn btn-primary">
                       <i class="fa fa-credit-card"></i> Proceed to Checkout

@@ -77,6 +77,7 @@ class OrderController extends Controller
             'customer_postal_code' => 'nullable|string|max:10',
             'delivery_type' => 'required|in:self_pickup,delivery',
             'payment_method' => 'required|in:qris,virtual_account,cash',
+            'qris_channel' => 'required_if:payment_method,qris|nullable|in:dana,gopay,ovo,linkaja',
             'va_bank' => 'required_if:payment_method,virtual_account|nullable|in:bca,bni,mandiri,permata,bri,cimb,danamon',
         ]);
 
@@ -135,6 +136,7 @@ class OrderController extends Controller
                 'shipping_provider' => 'Estimasi Manual',
                 'total' => $total,
                 'payment_method' => $request->payment_method,
+                'qris_channel' => $request->payment_method === 'qris' ? ($request->qris_channel ?? 'dana') : null,
                 'status' => 'pending',
                 'payment_status' => 'pending',
                 'notes' => $request->notes,
@@ -160,6 +162,12 @@ class OrderController extends Controller
                 $midtransService = new MidtransService();
                 $paymentType = $request->payment_method === 'qris' ? 'qris' : 'bank_transfer';
                 
+                // Get QRIS channel for QRIS payment (dana, gopay, ovo, linkaja)
+                $qrisChannel = null;
+                if ($request->payment_method === 'qris' && $request->qris_channel) {
+                    $qrisChannel = $request->qris_channel;
+                }
+                
                 // Get bank code for Virtual Account
                 $bankCode = null;
                 if ($request->payment_method === 'virtual_account' && $request->va_bank) {
@@ -168,10 +176,14 @@ class OrderController extends Controller
                 
                 try {
                     // Create transaction using Core API
-                    $response = $midtransService->createTransaction($order, $paymentType, $bankCode);
+                    // Pass qrisChannel as third parameter (or bankCode for VA)
+                    $channelOrBank = $qrisChannel ?? $bankCode;
+                    $response = $midtransService->createTransaction($order, $paymentType, $channelOrBank);
                     
                     // Log full response for debugging
                     Log::info('Midtrans Response for Order: ' . $order->order_number, [
+                        'payment_method' => $request->payment_method,
+                        'channel_or_bank' => $channelOrBank,
                         'response_type' => gettype($response),
                         'response' => is_object($response) ? json_encode($response) : $response
                     ]);

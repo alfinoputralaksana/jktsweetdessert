@@ -190,8 +190,23 @@
                     <div class="form-check mb-2">
                       <input class="form-check-input" type="radio" name="payment_method" id="qris" value="qris" {{ old('payment_method') === 'qris' ? 'checked' : '' }} required>
                       <label class="form-check-label" for="qris">
-                        <i class="fa fa-qrcode"></i> QRIS (Scan QR Code)
+                        <i class="fa fa-qrcode"></i> QRIS / E-Wallet
                       </label>
+                    </div>
+                    <!-- QRIS Channel Selection (muncul saat QRIS dipilih) -->
+                    <div id="qris-channel-selection" class="ml-4 mb-3" style="display: {{ old('payment_method') === 'qris' ? 'block' : 'none' }};">
+                      <label for="qris_channel" class="form-label" style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+                        <i class="fa fa-mobile"></i> Pilih E-Wallet:
+                      </label>
+                      <select name="qris_channel" id="qris_channel" class="form-control" style="font-size: 14px;">
+                        <option value="dana" {{ old('qris_channel') === 'dana' ? 'selected' : '' }}>DANA - Dompet Digital (Recommended)</option>
+                        <option value="gopay" {{ old('qris_channel') === 'gopay' ? 'selected' : '' }}>GoPay - Gojek Payment</option>
+                        <option value="ovo" {{ old('qris_channel') === 'ovo' ? 'selected' : '' }}>OVO - OVO Wallet</option>
+                        <option value="linkaja" {{ old('qris_channel') === 'linkaja' ? 'selected' : '' }}>LinkAja - Link Indonesia</option>
+                      </select>
+                      <small class="form-text text-muted" style="font-size: 11px; margin-top: 5px; display: block;">
+                        <i class="fa fa-info-circle"></i> Pilih aplikasi e-wallet yang Anda gunakan. DANA recommended untuk verifikasi biometric.
+                      </small>
                     </div>
                     <div class="form-check mb-2">
                       <input class="form-check-input" type="radio" name="payment_method" id="virtual_account" value="virtual_account" {{ old('payment_method') === 'virtual_account' ? 'checked' : '' }} required>
@@ -470,13 +485,26 @@
         }, 300);
       }
 
-      // Handle bank selection visibility for Virtual Account
+      // Handle QRIS channel and bank selection visibility
+      const qrisChannelSelection = document.getElementById('qris-channel-selection');
+      const qrisChannelSelect = document.getElementById('qris_channel');
       const bankSelection = document.getElementById('bank-selection');
       const vaBankSelect = document.getElementById('va_bank');
       const paymentMethodInputs = document.querySelectorAll('input[name="payment_method"]');
 
-      function toggleBankSelection() {
+      function togglePaymentSelections() {
         const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
+        
+        // Handle QRIS channel selection
+        if (selectedPayment && selectedPayment.value === 'qris') {
+          qrisChannelSelection.style.display = 'block';
+          qrisChannelSelect.setAttribute('required', 'required');
+        } else {
+          qrisChannelSelection.style.display = 'none';
+          qrisChannelSelect.removeAttribute('required');
+        }
+        
+        // Handle bank selection
         if (selectedPayment && selectedPayment.value === 'virtual_account') {
           bankSelection.style.display = 'block';
           vaBankSelect.setAttribute('required', 'required');
@@ -488,11 +516,11 @@
 
       // Add event listeners to payment method radio buttons
       paymentMethodInputs.forEach(input => {
-        input.addEventListener('change', toggleBankSelection);
+        input.addEventListener('change', togglePaymentSelections);
       });
 
       // Initial check on page load
-      toggleBankSelection();
+      togglePaymentSelections();
     });
   </script>
 </body>
