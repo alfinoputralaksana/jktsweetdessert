@@ -51,6 +51,11 @@ Route::get('/orders/{orderNumber}', [OrderController::class, 'show'])->name('ord
 // Payment routes
 Route::post('/payment/callback', [PaymentController::class, 'callback'])->name('payment.callback');
 Route::post('/payment/notification', [PaymentController::class, 'notification'])->name('payment.notification');
+Route::get('/payment/retry-qris/{orderNumber}', [PaymentController::class, 'retryQrisGeneration'])->name('payment.retry-qris');
+Route::get('/payment/test-dana-qris', [PaymentController::class, 'testDanaQris'])->name('payment.test-dana-qris');
+
+// API endpoint untuk polling payment status
+Route::get('/api/payment-status/{orderNumber}', [PaymentController::class, 'getPaymentStatus'])->name('api.payment-status');
 
 // QR Code generation route - menggunakan query parameter untuk data yang panjang
 Route::get('/qrcode', [QrCodeController::class, 'generate'])->name('qrcode.generate');

@@ -181,64 +181,78 @@
             </div>
 
             <div class="col-md-4 checkout-summary">
-              <div class="card">
-                <div class="card-header">
-                  <h5>Payment Method</h5>
+              <div class="card" style="border: 2px solid #D4A574; box-shadow: 0 4px 15px rgba(139, 111, 71, 0.15); border-radius: 10px; overflow: hidden;\">
+                <div class="card-header" style="background: linear-gradient(135deg, #8B6F47 0%, #6B5637 100%); border: none; padding: 16px;">
+                  <h5 style="margin: 0; color: #F5E6D3; font-weight: 700; font-size: 16px;"><i class="fa fa-credit-card" style="margin-right: 8px;"></i>Payment Method</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="padding: 16px; background: #FEFCF8;">
                   <div class="form-group">
-                    <div class="form-check mb-2">
-                      <input class="form-check-input" type="radio" name="payment_method" id="qris" value="qris" {{ old('payment_method') === 'qris' ? 'checked' : '' }} required>
-                      <label class="form-check-label" for="qris">
-                        <i class="fa fa-qrcode"></i> QRIS / E-Wallet
-                      </label>
-                    </div>
-                    <!-- QRIS Channel Selection (muncul saat QRIS dipilih) -->
-                    <div id="qris-channel-selection" class="ml-4 mb-3" style="display: {{ old('payment_method') === 'qris' ? 'block' : 'none' }};">
-                      <label for="qris_channel" class="form-label" style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
-                        <i class="fa fa-mobile"></i> Pilih E-Wallet:
-                      </label>
-                      <select name="qris_channel" id="qris_channel" class="form-control" style="font-size: 14px;">
-                        <option value="dana" {{ old('qris_channel') === 'dana' ? 'selected' : '' }}>DANA - Dompet Digital (Recommended)</option>
-                        <option value="gopay" {{ old('qris_channel') === 'gopay' ? 'selected' : '' }}>GoPay - Gojek Payment</option>
-                        <option value="ovo" {{ old('qris_channel') === 'ovo' ? 'selected' : '' }}>OVO - OVO Wallet</option>
-                        <option value="linkaja" {{ old('qris_channel') === 'linkaja' ? 'selected' : '' }}>LinkAja - Link Indonesia</option>
-                      </select>
-                      <small class="form-text text-muted" style="font-size: 11px; margin-top: 5px; display: block;">
-                        <i class="fa fa-info-circle"></i> Pilih aplikasi e-wallet yang Anda gunakan. DANA recommended untuk verifikasi biometric.
-                      </small>
-                    </div>
-                    <div class="form-check mb-2">
-                      <input class="form-check-input" type="radio" name="payment_method" id="virtual_account" value="virtual_account" {{ old('payment_method') === 'virtual_account' ? 'checked' : '' }} required>
-                      <label class="form-check-label" for="virtual_account">
-                        <i class="fa fa-university"></i> Virtual Account
+
+
+                    <!-- Virtual Account Payment (RECOMMENDED) -->
+                    <div class="form-check mb-3" style="padding: 16px; background: linear-gradient(135deg, #A0826D 0%, #8B6F47 100%); border-radius: 12px; border: 3px solid #D4A574; box-shadow: 0 6px 20px rgba(139, 111, 71, 0.25); transition: all 0.3s ease;">
+                      <input class="form-check-input" type="radio" name="payment_method" id="virtual_account" value="virtual_account" {{ old('payment_method') === 'virtual_account' ? 'checked' : 'checked' }} required>
+                      <label class="form-check-label" for="virtual_account" style="cursor: pointer; margin: 0; color: white; display: flex; align-items: center;">
+                        <i class="fa fa-university" style="color: #F5E6D3; font-size: 20px; margin-right: 10px;"></i>
+                        <div>
+                          <strong style="font-size: 15px; display: block;">💰 Virtual Account</strong>
+                          <span style="position: absolute; top: 8px; right: 12px; background: #D4A574; color: #6B5637; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; letter-spacing: 0.5px;">RECOMMENDED</span>
+                          <small style="color: #F5E6D3; display: block; margin-top: 4px;">Transfer via BCA, BNI, Mandiri, Permata, CIMB, UOB, Danamon</small>
+                        </div>
                       </label>
                     </div>
                     <!-- Bank Selection (muncul saat Virtual Account dipilih) -->
-                    <div id="bank-selection" class="ml-4 mb-3" style="display: {{ old('payment_method') === 'virtual_account' ? 'block' : 'none' }};">
-                      <label for="va_bank" class="form-label" style="font-size: 14px; font-weight: 500; margin-bottom: 8px;">
-                        <i class="fa fa-building"></i> Pilih Bank:
+                    <div id="bank-selection" class="ml-4 mb-4" style="display: {{ old('payment_method') === 'virtual_account' || !old('payment_method') ? 'block' : 'none' }}; padding: 14px; background: #F5E6D3; border-radius: 10px; border-left: 4px solid #8B6F47;">
+                      <label for="va_bank" class="form-label" style="font-size: 13px; font-weight: 600; margin-bottom: 10px; color: #6B5637; display: block;">
+                        <i class="fa fa-building" style="color: #A0826D; margin-right: 6px;"></i> Pilih Bank Anda:
                       </label>
-                      <select name="va_bank" id="va_bank" class="form-control" style="font-size: 14px;">
-                        <option value="bca" {{ old('va_bank') === 'bca' ? 'selected' : '' }}>BCA - Bank Central Asia (Kode: 014)</option>
-                        <option value="bni" {{ old('va_bank') === 'bni' ? 'selected' : '' }}>BNI - Bank Negara Indonesia (Kode: 009)</option>
-                        <option value="mandiri" {{ old('va_bank') === 'mandiri' ? 'selected' : '' }}>Mandiri - Bank Mandiri (Kode: 008)</option>
-                        <option value="permata" {{ old('va_bank') === 'permata' ? 'selected' : '' }}>Permata - Bank Permata (Kode: 013)</option>
-                        <option value="bri" {{ old('va_bank') === 'bri' ? 'selected' : '' }}>BRI - Bank Rakyat Indonesia (Kode: 002)</option>
-                        <option value="cimb" {{ old('va_bank') === 'cimb' ? 'selected' : '' }}>CIMB - Bank CIMB Niaga (Kode: 022)</option>
-                        <option value="danamon" {{ old('va_bank') === 'danamon' ? 'selected' : '' }}>Danamon - Bank Danamon (Kode: 011)</option>
+                      <select name="va_bank" id="va_bank" class="form-control" style="font-size: 13px; border: 2px solid #D4A574; background: white; color: #6B5637; padding: 8px 12px; border-radius: 6px;">
+                        <option value="bca" {{ old('va_bank') === 'bca' ? 'selected' : 'selected' }}>BCA - Bank Central Asia</option>
+                        <option value="bni" {{ old('va_bank') === 'bni' ? 'selected' : '' }}>BNI - Bank Negara Indonesia</option>
+                        <option value="mandiri" {{ old('va_bank') === 'mandiri' ? 'selected' : '' }}>Mandiri - Bank Mandiri</option>
+                        <option value="permata" {{ old('va_bank') === 'permata' ? 'selected' : '' }}>Permata - Bank Permata</option>
+                        <option value="cimb" {{ old('va_bank') === 'cimb' ? 'selected' : '' }}>CIMB Niaga - CIMB Niaga</option>
+                        <option value="uob" {{ old('va_bank') === 'uob' ? 'selected' : '' }}>UOB - United Overseas Bank</option>
+                        <option value="danamon" {{ old('va_bank') === 'danamon' ? 'selected' : '' }}>Danamon - Bank Danamon</option>
                       </select>
-                      <small class="form-text text-muted" style="font-size: 11px; margin-top: 5px; display: block;">
-                        <i class="fa fa-info-circle"></i> Pilih bank yang Anda gunakan untuk transfer. Pastikan bank yang dipilih sesuai dengan rekening Anda.
+                      <small style="color: #8B6F47; margin-top: 8px; display: block; font-style: italic;">
+                        <i class="fa fa-lightbulb" style="color: #D4A574;"></i> Setiap order mendapat nomor rekening unik untuk tracking pembayaran.
                       </small>
-                      @error('va_bank')
-                        <div class="text-danger" style="font-size: 12px; margin-top: 5px;">{{ $message }}</div>
-                      @enderror
                     </div>
-                    <div class="form-check">
+
+                    <!-- QRIS Payment -->
+                    <div class="form-check mb-3" style="padding: 16px; background: linear-gradient(135deg, #D4A574 0%, #A0826D 100%); border-radius: 12px; border: 2px solid #8B6F47; box-shadow: 0 6px 20px rgba(212, 165, 116, 0.2); transition: all 0.3s ease;">
+                      <input class="form-check-input" type="radio" name="payment_method" id="qris" value="qris" {{ old('payment_method') === 'qris' ? 'checked' : '' }} required>
+                      <label class="form-check-label" for="qris" style="cursor: pointer; margin: 0; color: white; display: flex; align-items: center;">
+                        <i class="fa fa-qrcode" style="font-size: 20px; margin-right: 10px;"></i>
+                        <div>
+                          <strong style="font-size: 15px; display: block;">🎯 QRIS (Semua E-Wallet)</strong>
+                          <small style="color: #F5E6D3; display: block; margin-top: 4px;">Scan QR Code dengan GoPay, OVO, DANA, LinkAja, atau e-wallet lainnya</small>
+                        </div>
+                      </label>
+                    </div>
+                    <!-- QRIS Info -->
+                    <div id="qris-channel-selection" class="ml-4 mb-4" style="display: {{ old('payment_method') === 'qris' ? 'block' : 'none' }}; padding: 14px; background: #F5E6D3; border-radius: 10px; border-left: 4px solid #D4A574;">
+                      <input type="hidden" name="qris_channel" value="gopay">
+                      <div style="margin: 0; font-size: 12px;">
+                        <strong style="color: #6B5637; display: block; margin-bottom: 8px;"><i class="fa fa-check-circle" style="color: #8B6F47; margin-right: 6px;"></i>Cara Pembayaran QRIS:</strong>
+                        <small style="display: block; margin-top: 6px; color: #8B6F47; line-height: 1.6;">
+                          1. Scan QR Code menggunakan aplikasi e-wallet Anda<br>
+                          2. Pilih e-wallet yang tersedia: GoPay, OVO, DANA, LinkAja, atau e-wallet lainnya<br>
+                          3. Lakukan konfirmasi pembayaran di aplikasi
+                        </small>
+                      </div>
+                    </div>
+
+                    <!-- Cash Payment -->
+                    <div class="form-check mb-3" style="padding: 16px; background: linear-gradient(135deg, #C9B0A0 0%, #A0826D 100%); border-radius: 12px; border: 2px solid #8B6F47; box-shadow: 0 6px 20px rgba(160, 130, 109, 0.2); transition: all 0.3s ease;">
                       <input class="form-check-input" type="radio" name="payment_method" id="cash" value="cash" {{ old('payment_method') === 'cash' ? 'checked' : '' }} required>
-                      <label class="form-check-label" for="cash">
-                        <i class="fa fa-money"></i> Cash (Bayar di Tempat)
+                      <label class="form-check-label" for="cash" style="cursor: pointer; margin: 0; color: white; display: flex; align-items: center;">
+                        <i class="fa fa-money" style="color: #F5E6D3; font-size: 20px; margin-right: 10px;"></i>
+                        <div>
+                          <strong style="font-size: 15px; display: block;">💵 Cash (Bayar di Tempat)</strong>
+                          <small style="color: #F5E6D3; display: block; margin-top: 4px;">Ambil sendiri dan bayar saat pickup</small>
+                        </div>
                       </label>
                     </div>
                   </div>
@@ -248,30 +262,53 @@
                 </div>
               </div>
 
-              <div class="card mt-3">
-                <div class="card-header">
-                  <h5>Order Summary</h5>
+              <!-- Payment Method Guide -->
+              <div class="card mt-3" style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D7C3 100%); border: 2px solid #D4A574; box-shadow: 0 4px 15px rgba(139, 111, 71, 0.15); border-radius: 10px;">
+                <div class="card-header" style="background: linear-gradient(135deg, #8B6F47 0%, #6B5637 100%); border: none; border-radius: 8px 8px 0 0;">
+                  <h6 style="margin: 0; font-size: 12px; text-transform: uppercase; font-weight: 700; color: #F5E6D3; letter-spacing: 1px;">
+                    <i class="fa fa-lightbulb" style="color: #D4A574; margin-right: 6px;"></i> Panduan Memilih
+                  </h6>
                 </div>
-                <div class="card-body">
-                  <div class="d-flex justify-content-between mb-2">
-                    <span>Subtotal:</span>
-                    <span>Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                <div class="card-body" style="font-size: 13px; padding: 16px; color: #6B5637;">
+                  <div style="margin-bottom: 12px; padding: 10px; background: white; border-left: 4px solid #D4A574; border-radius: 4px;">
+                    <strong style="color: #8B6F47;">🎯 Untuk pengguna e-wallet:</strong><br>
+                    <small style="color: #8B6F47; margin-top: 4px; display: block;">Pilih QRIS & scan dengan GoPay, OVO, DANA, atau LinkAja</small>
                   </div>
-                  <div class="d-flex justify-content-between mb-2" id="shipping-row">
-                    <span>Shipping:</span>
-                    <span id="shipping-cost">Rp {{ number_format($shippingCost, 0, ',', '.') }}</span>
+                  <div style="margin-bottom: 12px; padding: 10px; background: white; border-left: 4px solid #A0826D; border-radius: 4px;">
+                    <strong style="color: #8B6F47;">🏦 Untuk pengguna m-banking:</strong><br>
+                    <small style="color: #8B6F47; margin-top: 4px; display: block;">Pilih Virtual Account & transfer dari aplikasi bank Anda</small>
                   </div>
-                  <hr>
-                  <div class="d-flex justify-content-between mb-3">
-                    <strong>Total:</strong>
-                    <strong id="total-amount">Rp {{ number_format($total, 0, ',', '.') }}</strong>
+                  <div style="padding: 10px; background: white; border-left: 4px solid #C9B0A0; border-radius: 4px;">
+                    <strong style="color: #8B6F47;">💳 Untuk ambil sendiri (self-pickup):</strong><br>
+                    <small style="color: #8B6F47; margin-top: 4px; display: block;">Pilih Cash & bayar saat mengambil pesanan</small>
                   </div>
-                  <button type="submit" class="btn btn-primary btn-block">
-                    Place Order
+                </div>
+              </div>
+
+              <div class="card mt-3" style="border: 2px solid #D4A574; box-shadow: 0 4px 15px rgba(139, 111, 71, 0.15); border-radius: 10px; overflow: hidden;">
+                <div class="card-header" style="background: linear-gradient(135deg, #8B6F47 0%, #6B5637 100%); border: none; padding: 16px;">
+                  <h5 style="margin: 0; color: #F5E6D3; font-weight: 700; font-size: 16px;">📋 Order Summary</h5>
+                </div>
+                <div class="card-body" style="padding: 16px; background: #FEFCF8;">
+                  <div class="d-flex justify-content-between mb-3" style="padding: 10px; background: #F5E6D3; border-radius: 6px;">
+                    <span style="color: #6B5637; font-weight: 500;">Subtotal:</span>
+                    <span style="color: #8B6F47; font-weight: 600;">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                  </div>
+                  <div class="d-flex justify-content-between mb-3" id="shipping-row" style="padding: 10px; background: #F5E6D3; border-radius: 6px;">
+                    <span style="color: #6B5637; font-weight: 500;">Shipping:</span>
+                    <span id="shipping-cost" style="color: #8B6F47; font-weight: 600;">Rp {{ number_format($shippingCost, 0, ',', '.') }}</span>
+                  </div>
+                  <hr style="border: none; border-top: 2px solid #D4A574; margin: 12px 0;">
+                  <div class="d-flex justify-content-between mb-4" style="padding: 12px; background: linear-gradient(135deg, #D4A574 0%, #A0826D 100%); border-radius: 8px;">
+                    <strong style="color: white; font-size: 15px;">Total:</strong>
+                    <strong id="total-amount" style="color: white; font-size: 18px;">Rp {{ number_format($total, 0, ',', '.') }}</strong>
+                  </div>
+                  <button type="submit" class="btn btn-block" style="background: linear-gradient(135deg, #8B6F47 0%, #6B5637 100%); color: white; border: none; padding: 12px; font-weight: 600; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(139, 111, 71, 0.2);">
+                    <i class="fa fa-shopping-cart" style="margin-right: 8px;"></i> Place Order
                   </button>
-                  <a href="{{ route('cart.index') }}" class="btn btn-outline-secondary btn-block mt-2">
-                    Back to Cart
-                  </a>
+                  <button type="button" onclick="window.location.href='{{ route('cart.index') }}'" class="btn btn-block mt-2" style="background: white; color: #8B6F47; border: 2px solid #D4A574; padding: 11px; font-weight: 600; border-radius: 8px; transition: all 0.3s ease;">
+                    <i class="fa fa-arrow-left" style="margin-right: 8px;"></i> Back to Cart
+                  </button>
                 </div>
               </div>
             </div>
@@ -487,7 +524,6 @@
 
       // Handle QRIS channel and bank selection visibility
       const qrisChannelSelection = document.getElementById('qris-channel-selection');
-      const qrisChannelSelect = document.getElementById('qris_channel');
       const bankSelection = document.getElementById('bank-selection');
       const vaBankSelect = document.getElementById('va_bank');
       const paymentMethodInputs = document.querySelectorAll('input[name="payment_method"]');
@@ -495,13 +531,11 @@
       function togglePaymentSelections() {
         const selectedPayment = document.querySelector('input[name="payment_method"]:checked');
         
-        // Handle QRIS channel selection
+        // Handle QRIS channel selection display (always show when QRIS selected)
         if (selectedPayment && selectedPayment.value === 'qris') {
           qrisChannelSelection.style.display = 'block';
-          qrisChannelSelect.setAttribute('required', 'required');
         } else {
           qrisChannelSelection.style.display = 'none';
-          qrisChannelSelect.removeAttribute('required');
         }
         
         // Handle bank selection

@@ -73,21 +73,29 @@ class MidtransService
                 // For QRIS, use Core API which returns qr_string directly
                 $params['payment_type'] = 'qris';
                 
-                // Add QRIS channel if specified (dana, gopay, ovo, linkaja)
-                // This ensures QRIS code is optimized for the specific e-wallet
-                $supportedChannels = ['dana', 'gopay', 'ovo', 'linkaja'];
-                if ($bankCode && in_array(strtolower($bankCode), $supportedChannels)) {
+                // For QRIS, use Core API which returns qr_string directly
+                // If we have a channel, we can use acquirer parameter for specific channel QRIS
+                // But generic QRIS also works and is more reliable
+                
+                if ($bankCode && strtolower($bankCode) === 'gopay') {
+                    // GoPay-specific QRIS request
+                    $params['payment_type'] = 'qris';
                     $params['qris'] = [
-                        'acquirer' => strtoupper($bankCode) // DANA, GOPAY, OVO, LINKAJA
+                        'acquirer' => 'gopay'
                     ];
-                    \Log::info('Creating QRIS transaction with channel', [
+                    
+                    \Log::info('Creating GoPay-specific QRIS transaction', [
                         'order_id' => $order->order_number,
-                        'channel' => strtoupper($bankCode),
+                        'channel' => 'gopay',
                         'amount' => $order->total
                     ]);
                 } else {
-                    \Log::info('Creating QRIS transaction (generic)', [
+                    // Generic QRIS (works with all e-wallets but might not be specific to one)
+                    $params['payment_type'] = 'qris';
+                    
+                    \Log::info('Creating generic QRIS transaction', [
                         'order_id' => $order->order_number,
+                        'channel' => $bankCode ?? 'generic',
                         'amount' => $order->total
                     ]);
                 }

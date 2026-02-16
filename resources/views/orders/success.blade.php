@@ -19,101 +19,98 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-8">
-            <div class="card text-center">
-              <div class="card-body">
+            <div class="card" style="border: 2px solid #D4A574; box-shadow: 0 8px 25px rgba(139, 111, 71, 0.2); border-radius: 12px; overflow: hidden;">
+              <div style="background: linear-gradient(135deg, #8B6F47 0%, #6B5637 100%); padding: 30px; text-align: center; color: #F5E6D3;">
                 <div class="mb-4">
-                  <i class="fa fa-check-circle" style="font-size: 80px; color: green;"></i>
+                  <i class="fa fa-check-circle" style="font-size: 80px; color: #D4A574;"></i>
                 </div>
-                <h2>Order Placed Successfully!</h2>
-                <p class="lead">Thank you for your order</p>
-                <hr>
+                <h2 style="color: white; margin-bottom: 10px; font-weight: 700;">Order Berhasil!</h2>
+                <p class="lead" style="color: #F5E6D3; margin: 0;">Terima kasih atas pesanan Anda</p>
+              </div>
+              <div class="card-body" style="padding: 24px; background: #FEFCF8;">
                 <div class="text-left">
-                  <h5>Order Details:</h5>
-                  <p><strong>Order Number:</strong> {{ $order->order_number }}</p>
-                  <p><strong>Customer Name:</strong> {{ $order->customer_name }}</p>
-                  <p><strong>Email:</strong> {{ $order->customer_email }}</p>
-                  <p><strong>Phone:</strong> {{ $order->customer_phone }}</p>
-                  <p><strong>Delivery Type:</strong> {{ $order->delivery_type === 'self_pickup' ? 'Self Pickup' : 'Delivery' }}</p>
-                  @if($order->delivery_type === 'delivery')
-                    <p><strong>Address:</strong> {{ $order->customer_address }}</p>
-                  @endif
-                  <p><strong>Payment Method:</strong> 
-                    @if($order->payment_method === 'qris')
-                      QRIS / E-Wallet 
-                      @if($order->qris_channel)
-                        <span class="badge badge-info">{{ strtoupper($order->qris_channel) }}</span>
+                  <h5 style="color: #8B6F47; margin-bottom: 16px; border-bottom: 2px solid #D4A574; padding-bottom: 10px;"><i class="fa fa-list" style="margin-right: 8px; color: #D4A574;"></i>Detail Pesanan:</h5>
+                  <div style="line-height: 2; color: #6B5637; font-size: 14px;">
+                    <p><strong>Nomor Order:</strong> <span style="color: #8B6F47; font-family: monospace; background: #F5E6D3; padding: 4px 8px; border-radius: 4px;">{{ $order->order_number }}</span></p>
+                    <p><strong>Nama Pelanggan:</strong> {{ $order->customer_name }}</p>
+                    <p><strong>Email:</strong> {{ $order->customer_email }}</p>
+                    <p><strong>Telepon:</strong> {{ $order->customer_phone }}</p>
+                    <p><strong>Tipe Pengiriman:</strong> 
+                      @if($order->delivery_type === 'self_pickup')
+                        <span style="background: #A0826D; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Ambil Sendiri</span>
+                      @else
+                        <span style="background: #D4A574; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Pengiriman</span>
                       @endif
-                    @elseif($order->payment_method === 'virtual_account')
-                      Virtual Account
-                    @else
-                      Cash
+                    </p>
+                    @if($order->delivery_type === 'delivery')
+                      <p><strong>Alamat:</strong> {{ $order->customer_address }}</p>
                     @endif
-                  </p>
-                  <p><strong>Total:</strong> Rp {{ number_format($order->total, 0, ',', '.') }}</p>
-                  <p><strong>Status:</strong> <span class="badge badge-warning">{{ ucfirst($order->status) }}</span></p>
-                  <p><strong>Payment Status:</strong> 
-                    <span class="badge {{ $order->payment_status === 'paid' ? 'badge-success' : ($order->payment_status === 'failed' ? 'badge-danger' : 'badge-warning') }}">
-                      {{ ucfirst($order->payment_status) }}
-                    </span>
-                  </p>
+                    <p><strong>Metode Pembayaran:</strong> 
+                      @if($order->payment_method === 'qris')
+                        <span style="background: linear-gradient(135deg, #D4A574 0%, #A0826D 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">QRIS / E-Wallet</span>
+                      @elseif($order->payment_method === 'virtual_account')
+                        <span style="background: linear-gradient(135deg, #A0826D 0%, #8B6F47 100%); color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Virtual Account</span>
+                      @else
+                        <span style="background: #C9B0A0; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">Cash</span>
+                      @endif
+                    </p>
+                    <hr style="border: none; border-top: 1px solid #D4A574; margin: 12px 0;">
+                    <p style="background: linear-gradient(135deg, #D4A574 0%, #A0826D 100%); color: white; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                      <strong>Total:</strong> Rp {{ number_format($order->total, 0, ',', '.') }}
+                    </p>
+                    <p style="margin-top: 12px;">
+                      <strong>Status Order:</strong> 
+                      <span style="background: #D4A574; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">{{ ucfirst($order->status) }}</span>
+                    </p>
+                    <p>
+                      <strong>Status Pembayaran:</strong> 
+                      @if($order->payment_status === 'paid')
+                        <span style="background: #8B6F47; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">✓ Terbayar</span>
+                      @elseif($order->payment_status === 'failed')
+                        <span style="background: #c0392b; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">✗ Gagal</span>
+                      @else
+                        <span style="background: #D4A574; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">⏳ Menunggu Pembayaran</span>
+                      @endif
+                    </p>
+                  </div>
                 </div>
 
                 @if(in_array($order->payment_method, ['qris', 'virtual_account']))
-                  <hr>
+                  <hr style="border: none; border-top: 2px solid #D4A574; margin: 20px 0;">
                   
-                  {{-- Debug Info (Hapus di production) --}}
-                  @if(config('app.debug'))
-                  <div class="alert alert-secondary" style="font-size: 11px;">
-                    <strong>Debug Info:</strong><br>
-                    Payment Method: {{ $order->payment_method }}<br>
-                    @if($order->payment_method === 'qris')
-                      QRIS Channel: {{ $order->qris_channel ?? 'generic' }}<br>
-                    @endif
-                    QRIS URL: {{ $order->qris_url ? 'Ada (' . strlen($order->qris_url) . ' chars)' : 'Tidak ada' }}<br>
-                    VA Number: {{ $order->virtual_account_number ? 'Ada: ' . $order->virtual_account_number : 'Tidak ada' }}<br>
-                    Payment Status: {{ $order->payment_status }}
-                  </div>
-                  @endif
-                  
-                  <div class="alert alert-warning text-left" style="border-left: 4px solid #ff9800;">
-                    <h4 style="color: #ff9800; margin-bottom: 20px;">
-                      <i class="fa fa-exclamation-triangle"></i> Selesaikan Pembayaran Anda
+                  <div style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D7C3 100%); border: 2px solid #D4A574; border-radius: 10px; padding: 20px;">
+                    <h4 style="color: #8B6F47; margin-bottom: 16px;">
+                      <i class="fa fa-exclamation-triangle" style="color: #D4A574; margin-right: 8px;"></i> Selesaikan Pembayaran Anda
                     </h4>
                     
                     @if($order->payment_method === 'qris')
                       @if($order->qris_url)
-                      <div class="text-center my-4" style="background: #f8f9fa; padding: 30px; border-radius: 10px;">
-                        <h5 style="margin-bottom: 20px; color: #333;">
-                          <i class="fa fa-qrcode"></i> Scan QR Code dengan {{ strtoupper($order->qris_channel ?? 'aplikasi e-wallet Anda') }}
+                      <div class="text-center my-4" style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D7C3 100%); padding: 30px; border-radius: 12px; border: 2px solid #D4A574;">
+                        <h5 style="margin-bottom: 20px; color: #8B6F47; font-weight: 600;">
+                          <i class="fa fa-qrcode" style="color: #D4A574; margin-right: 8px;"></i> Scan QR Code dengan E-Wallet Anda
                         </h5>
-                        <div style="display: inline-block; padding: 20px; background: white; border: 3px solid #28a745; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <div style="display: inline-block; padding: 20px; background: white; border: 3px solid #D4A574; border-radius: 12px; box-shadow: 0 4px 8px rgba(212, 165, 116, 0.2);">
                           @php
-                            // Priority untuk GoPay: Gunakan QR code image langsung dari Midtrans (generate-qr-code-v2)
-                            // QR code dari Midtrans sudah di-optimize khusus untuk GoPay dan lebih kompatibel
                             $qrImageUrl = null;
                             $qrImageUrlBackup = null;
-                            $qrImageUrlFallback = null;
                             
-                            // 1. Primary: QR code image dari Midtrans (paling kompatibel dengan GoPay)
                             if (!empty($order->qris_image_url)) {
                                 $qrImageUrl = $order->qris_image_url;
                             }
                             
-                            // 2. Backup: Generate QR code lokal jika Midtrans image tidak tersedia
                             if (empty($qrImageUrl) && !empty($order->qris_url)) {
                                 $qrData = $order->qris_url;
                                 $qrImageUrl = route('qrcode.generate') . '?data=' . urlencode($qrData);
                                 $qrImageUrlBackup = 'https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=' . urlencode($qrData) . '&ecc=H&margin=4';
                             }
                             
-                            // 3. Fallback: API online sebagai last resort
                             if (!empty($order->qris_url) && empty($qrImageUrlBackup)) {
                                 $qrData = $order->qris_url;
                                 $qrImageUrlBackup = 'https://api.qrserver.com/v1/create-qr-code/?size=600x600&data=' . urlencode($qrData) . '&ecc=H&margin=4';
                             }
                           @endphp
                           <img src="{{ $qrImageUrl }}" 
-                               alt="QRIS Code untuk {{ strtoupper($order->qris_channel ?? 'e-wallet') }}" 
+                               alt="QRIS Code" 
                                style="max-width: 600px; width: 100%; min-width: 400px; display: block; margin: 0 auto; 
                                       image-rendering: -webkit-optimize-contrast; 
                                       image-rendering: crisp-edges;
@@ -134,28 +131,28 @@
                             </p>
                           </div>
                         </div>
-                        <div class="alert alert-warning mt-3" style="font-size: 13px; border-left: 4px solid #ff9800;">
-                          <i class="fa fa-exclamation-triangle"></i> 
-                          <strong>Penting untuk {{ strtoupper($order->qris_channel ?? 'E-wallet') }}:</strong>
-                          <ul style="margin: 10px 0; padding-left: 20px;">
+                        <div class="alert alert-info mt-3" style="font-size: 13px; border-left: 4px solid #8B6F47; background: white; border: 2px solid #D4A574; color: #8B6F47;">
+                          <i class="fa fa-info-circle" style="color: #D4A574; margin-right: 8px;"></i> 
+                          <strong>Cara Pembayaran QRIS:</strong>
+                          <ul style="margin: 10px 0; padding-left: 20px; color: #6B5637;">
                             <li>Pastikan QR code terlihat jelas dan tidak blur</li>
                             <li>Jika tidak bisa di-scan, coba <strong>zoom in</strong> atau <strong>download gambar</strong> lalu scan dari galeri</li>
                             <li>Atau gunakan fitur <strong>"Salin Kode QRIS"</strong> di bawah untuk input manual</li>
-                            <li>Pastikan aplikasi {{ strtoupper($order->qris_channel ?? 'e-wallet') }} sudah update ke versi terbaru</li>
+                            <li>Pastikan aplikasi e-wallet Anda sudah update ke versi terbaru</li>
                           </ul>
                         </div>
                         <div class="mt-3">
-                          <p style="font-size: 16px; font-weight: bold; color: #333;">Total Pembayaran:</p>
-                          <p style="font-size: 24px; font-weight: bold; color: #28a745;">Rp {{ number_format($order->total, 0, ',', '.') }}</p>
+                          <p style="font-size: 16px; font-weight: bold; color: #8B6F47;">Total Pembayaran:</p>
+                          <p style="font-size: 24px; font-weight: bold; background: linear-gradient(135deg, #D4A574 0%, #A0826D 100%); color: white; padding: 12px; border-radius: 8px;">Rp {{ number_format($order->total, 0, ',', '.') }}</p>
                         </div>
-                        <div class="mt-3" style="background: white; padding: 15px; border-radius: 8px; text-align: left;">
-                          <p style="margin: 0; font-size: 14px;"><strong>Cara Bayar:</strong></p>
-                          <ol style="margin: 10px 0; padding-left: 20px; font-size: 13px;">
-                            <li>Buka aplikasi e-wallet (GoPay, OVO, DANA, LinkAja) atau mobile banking</li>
-                            <li>Pilih menu Scan QR atau Bayar</li>
+                        <div class="mt-3" style="background: white; padding: 15px; border-radius: 8px; text-align: left; border: 2px solid #D4A574;">
+                          <p style="margin: 0; font-size: 14px; color: #8B6F47; font-weight: 600;"><strong>Langkah-Langkah Pembayaran:</strong></p>
+                          <ol style="margin: 10px 0; padding-left: 20px; font-size: 13px; color: #6B5637;">
+                            <li>Buka aplikasi e-wallet Anda (GoPay, OVO, DANA, LinkAja, atau e-wallet lainnya)</li>
+                            <li>Pilih menu "Scan QR" atau "Bayar"</li>
                             <li>Scan QR code di atas</li>
                             <li>Pastikan nominal sesuai: <strong>Rp {{ number_format($order->total, 0, ',', '.') }}</strong></li>
-                            <li>Konfirmasi pembayaran</li>
+                            <li>Masukkan PIN/password dan konfirmasi pembayaran</li>
                           </ol>
                         </div>
                         <div class="mt-3">
@@ -163,7 +160,7 @@
                             <i class="fa fa-mobile"></i> Alternatif: Salin Kode QRIS
                           </p>
                           <p style="font-size: 12px; color: #666; margin-bottom: 10px;">
-                            Jika QR code tidak bisa di-scan, salin kode QRIS di bawah dan paste di aplikasi e-wallet:
+                            Jika QR code tidak bisa di-scan, salin kode QRIS di bawah:
                           </p>
                           <div class="alert alert-light" style="word-break: break-all; font-size: 11px; text-align: left; position: relative; padding-right: 80px;">
                             <span id="qris-code" style="display: block;">{{ $order->qris_url }}</span>
@@ -171,29 +168,25 @@
                               <i class="fa fa-copy"></i> Salin
                             </button>
                           </div>
-                          <div class="mt-2" style="font-size: 12px; color: #666; background: #f8f9fa; padding: 15px; border-radius: 8px;">
-                            <strong style="color: #333;">Cara menggunakan kode QRIS di GoPay:</strong>
-                            <ol style="margin: 10px 0; padding-left: 20px; line-height: 1.8;">
-                              <li>Klik tombol <strong>"Salin"</strong> di atas untuk copy kode QRIS</li>
-                              <li>Buka aplikasi <strong>GoPay</strong></li>
-                              <li>Pilih menu <strong>"Bayar"</strong> atau <strong>"Scan QR"</strong></li>
-                              <li>Jika ada opsi <strong>"Input Manual"</strong> atau <strong>"Paste QRIS"</strong>, pilih itu</li>
-                              <li><strong>Paste</strong> kode QRIS yang sudah di-copy</li>
-                              <li>Pastikan nominal sesuai: <strong>Rp {{ number_format($order->total, 0, ',', '.') }}</strong></li>
-                              <li>Konfirmasi pembayaran</li>
-                            </ol>
-                            <p style="margin-top: 10px; font-size: 11px; color: #999;">
-                              <i class="fa fa-info-circle"></i> 
-                              <strong>Catatan:</strong> Beberapa aplikasi e-wallet mungkin tidak support paste QRIS manual. 
-                              Jika tidak ada opsi paste, pastikan QR code di atas bisa di-scan dengan jelas.
-                            </p>
-                          </div>
+                        </div>
                         </div>
                       </div>
                       @else
                       <div class="alert alert-danger">
-                        <p><strong>QR Code belum tersedia. Silakan refresh halaman ini atau hubungi customer service.</strong></p>
+                        <p><i class="fa fa-warning"></i> <strong>QR Code belum tersedia</strong></p>
                         <p>Order Number: <strong>{{ $order->order_number }}</strong></p>
+                        <p style="margin-top: 15px; font-size: 14px;">Silakan coba salah satu opsi di bawah:</p>
+                        <div style="margin-top: 15px;">
+                          <a href="{{ route('payment.retry-qris', $order->order_number) }}" class="btn btn-primary btn-sm" style="margin-right: 10px;">
+                            <i class="fa fa-refresh"></i> Coba Buat QR Code Lagi
+                          </a>
+                          <button onclick="location.reload()" class="btn btn-info btn-sm" style="margin-right: 10px;">
+                            <i class="fa fa-refresh"></i> Muat Ulang Halaman
+                          </button>
+                          <a href="https://wa.me/62812345678" class="btn btn-success btn-sm" target="_blank">
+                            <i class="fa fa-whatsapp"></i> Hubungi Customer Service
+                          </a>
+                        </div>
                       </div>
                       @endif
                     @endif
@@ -388,12 +381,155 @@
       });
     }
 
-    // Auto refresh payment status every 30 seconds if payment is pending
+    // Auto refresh payment status every 5 seconds if payment is pending
     @if(in_array($order->payment_method, ['qris', 'virtual_account']) && $order->payment_status === 'pending')
-    setInterval(function() {
-      // Check payment status (optional - bisa ditambahkan endpoint untuk check status)
-      console.log('Checking payment status...');
-    }, 30000);
+    
+    let checkPaymentInterval = null;
+    let checkCount = 0;
+    const maxChecks = 120; // Check for 10 minutes max (120 * 5 seconds)
+    
+    function checkPaymentStatus() {
+      checkCount++;
+      
+      fetch('/api/payment-status/{{ $order->order_number }}')
+        .then(response => response.json())
+        .then(data => {
+          console.log('Payment Status:', data.payment_status);
+          
+          // Jika status berubah jadi paid
+          if (data.payment_status === 'paid') {
+            // Stop polling
+            clearInterval(checkPaymentInterval);
+            
+            // Show success modal
+            showPaymentSuccessModal(data);
+          }
+        })
+        .catch(error => console.error('Error checking payment status:', error));
+      
+      // Stop checking setelah 10 menit
+      if (checkCount >= maxChecks) {
+        clearInterval(checkPaymentInterval);
+        console.log('Payment status check timeout after 10 minutes');
+      }
+    }
+    
+    function showPaymentSuccessModal(data) {
+      // Create modal HTML
+      const modalHTML = `
+        <div id="payment-success-modal" class="modal fade show" tabindex="-1" role="dialog" style="display: block; background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content" style="border: none; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+              <div class="modal-header" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border: none; border-radius: 15px 15px 0 0; padding: 30px 20px;">
+                <button type="button" class="close" style="display: none;"></button>
+              </div>
+              <div class="modal-body text-center" style="padding: 40px 20px;">
+                <div style="font-size: 80px; color: #28a745; margin-bottom: 20px; animation: slideDown 0.6s ease-out;">
+                  <i class="fa fa-check-circle"></i>
+                </div>
+                
+                <h2 style="color: #333; font-weight: bold; margin-bottom: 10px; font-size: 28px;">
+                  Pembayaran Berhasil! 🎉
+                </h2>
+                
+                <p style="color: #666; font-size: 16px; margin-bottom: 20px; line-height: 1.6;">
+                  Terima kasih telah melakukan pembayaran.<br>
+                  <strong>Order #${data.order_number}</strong> telah dikonfirmasi.
+                </p>
+                
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: left; margin-bottom: 20px;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;">
+                    <span style="color: #666; font-weight: 500;">Nama Pemesan:</span>
+                    <strong style="color: #333;">${data.customer_name}</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #ddd;">
+                    <span style="color: #666; font-weight: 500;">No. Order:</span>
+                    <strong style="color: #333;">${data.order_number}</strong>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: #666; font-weight: 500;">Total Pembayaran:</span>
+                    <strong style="color: #28a745; font-size: 18px;">Rp ${new Intl.NumberFormat('id-ID').format(data.total)}</strong>
+                  </div>
+                </div>
+                
+                <p style="color: #999; font-size: 14px; margin-bottom: 30px;">
+                  Anda akan diarahkan ke riwayat transaksi dalam 3 detik...
+                </p>
+                
+                <button type="button" class="btn btn-success btn-lg" id="continue-to-history" style="
+                  width: 100%;
+                  border-radius: 8px;
+                  font-size: 16px;
+                  font-weight: 600;
+                  padding: 12px 30px;
+                  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+                  border: none;
+                  cursor: pointer;
+                  transition: all 0.3s ease;
+                ">
+                  Lihat Riwayat Transaksi →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Add modal to body
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+      
+      // Add CSS animation
+      const style = document.createElement('style');
+      style.innerHTML = `
+        @keyframes slideDown {
+          from {
+            transform: scale(0.5) rotate(-10deg);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1) rotate(0);
+            opacity: 1;
+          }
+        }
+        
+        .modal.show {
+          animation: fadeIn 0.3s ease-out;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `;
+      document.head.appendChild(style);
+      
+      // Auto redirect after 3 seconds
+      let countdown = 3;
+      const countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+          redirectToHistory();
+        }
+      }, 1000);
+      
+      // Button click handler
+      document.getElementById('continue-to-history').addEventListener('click', redirectToHistory);
+    }
+    
+    function redirectToHistory() {
+      // Redirect ke halaman riwayat transaksi
+      @if(Auth::check())
+        window.location.href = '{{ route("orders.history") }}';
+      @else
+        window.location.href = '/';
+      @endif
+    }
+    
+    // Start checking every 5 seconds
+    checkPaymentStatus(); // Check immediately
+    checkPaymentInterval = setInterval(checkPaymentStatus, 5000);
+    
     @endif
   </script>
 </body>

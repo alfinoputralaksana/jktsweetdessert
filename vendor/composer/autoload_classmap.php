@@ -6,6 +6,10 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\CheckQrisOrders' => $baseDir . '/app/Console/Commands/CheckQrisOrders.php',
+    'App\\Console\\Commands\\FixQrisOrder' => $baseDir . '/app/Console/Commands/FixQrisOrder.php',
+    'App\\Console\\Commands\\TestMidtransApi' => $baseDir . '/app/Console/Commands/TestMidtransApi.php',
+    'App\\Console\\Commands\\VerifyQrisSetup' => $baseDir . '/app/Console/Commands/VerifyQrisSetup.php',
     'App\\Http\\Controllers\\Admin\\DashboardController' => $baseDir . '/app/Http/Controllers/Admin/DashboardController.php',
     'App\\Http\\Controllers\\Admin\\OrderController' => $baseDir . '/app/Http/Controllers/Admin/OrderController.php',
     'App\\Http\\Controllers\\Admin\\ProductController' => $baseDir . '/app/Http/Controllers/Admin/ProductController.php',

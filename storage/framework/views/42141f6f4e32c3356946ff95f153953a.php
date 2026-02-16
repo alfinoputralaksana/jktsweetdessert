@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('page_title', 'Penjualan'); ?>
 <?php $__env->startSection('breadcrumb', 'Penjualan'); ?>
 
@@ -197,10 +195,32 @@
           </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="mt-3">
-          <?php echo e($orders->links()); ?>
+        <!-- Pagination: Prev/Next -->
+        <div class="pagination-container mt-4" style="display: flex; justify-content: center; align-items: center; gap: 15px;">
+          <?php if($orders->onFirstPage()): ?>
+            <button class="btn btn-outline-secondary" disabled style="opacity: 0.5;">
+              <i class="fas fa-chevron-left"></i> Sebelumnya
+            </button>
+          <?php else: ?>
+            <a href="<?php echo e($orders->previousPageUrl()); ?>" class="btn btn-outline-primary" style="text-decoration: none;">
+              <i class="fas fa-chevron-left"></i> Sebelumnya
+            </a>
+          <?php endif; ?>
 
+          <span class="pagination-info" style="font-size: 14px; color: #666;">
+            Halaman <?php echo e($orders->currentPage()); ?> dari <?php echo e($orders->lastPage()); ?>
+
+          </span>
+
+          <?php if($orders->hasMorePages()): ?>
+            <a href="<?php echo e($orders->nextPageUrl()); ?>" class="btn btn-outline-primary" style="text-decoration: none;">
+              Berikutnya <i class="fas fa-chevron-right"></i>
+            </a>
+          <?php else: ?>
+            <button class="btn btn-outline-secondary" disabled style="opacity: 0.5;">
+              Berikutnya <i class="fas fa-chevron-right"></i>
+            </button>
+          <?php endif; ?>
         </div>
       </div>
       <!-- /.card-body -->

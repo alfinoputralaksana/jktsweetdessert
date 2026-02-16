@@ -77,7 +77,7 @@ class OrderController extends Controller
             'customer_postal_code' => 'nullable|string|max:10',
             'delivery_type' => 'required|in:self_pickup,delivery',
             'payment_method' => 'required|in:qris,virtual_account,cash',
-            'qris_channel' => 'required_if:payment_method,qris|nullable|in:dana,gopay,ovo,linkaja',
+            'qris_channel' => 'nullable|in:gopay,dana,ovo,linkaja',
             'va_bank' => 'required_if:payment_method,virtual_account|nullable|in:bca,bni,mandiri,permata,bri,cimb,danamon',
         ]);
 
